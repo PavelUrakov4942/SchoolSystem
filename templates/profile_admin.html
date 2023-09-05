@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}
+Профиль администратора
+{% endblock %}
+
+{% block body %}
+<div>
+    <span class="fs-4">Профиль администратора</span>
+    <h3>{{ inf.fullName }}</h3>
+    <a href="/logout" class="mb-2 btn btn-lg rounded-4 btn-primary" type="submit">Выйти</a>
+    <hr>
+    <p>
+        <span class="fs-4">Инструменты</span>
+    </p>
+    <p>
+        <a href="/reg_student" class="mb-2 btn btn-outline-secondary rounded-4" type="submit">Добавить ученика</a>
+        <a href="/reg_teacher" class="mb-2 btn btn-outline-secondary rounded-4" type="submit">Добавить преподавателя</a>
+        <a href="/add_group" class="mb-2 btn btn-outline-secondary rounded-4" type="submit">Добавить класс</a>
+        <a href="/add_discipline" class="mb-2 btn btn-outline-secondary rounded-4" type="submit">Добавить дисциплину</a>
+        <a href="/teacher_discipline" class="mb-2 btn btn-outline-secondary rounded-4" type="submit">Преподаватель и
+            дисциплина</a>
+        <a href="/teacher_group" class="mb-2 btn btn-outline-secondary rounded-4" type="submit">Преподаватель и
+            класс</a>
+    </p><br>
+</div>
+{% endblock %}

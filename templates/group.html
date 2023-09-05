@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}
+Класс {{ number }}
+{% endblock %}
+
+{% block body %}
+<h3>Класс {{ number }}</h3>
+<div class="modal modal-signin position-static d-block py-5">
+    <a href="/profile_teacher" class="mb-2 btn btn-outline-secondary rounded-4" type="submit">Вернуться на главную</a>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-5">
+            <div class="modal-header p-5 pb-4 border-bottom-0">
+                <h3 class=" mb-0">Добавить работу для класса</h3>
+            </div>
+            <div class="modal-body p-5 pt-0">
+                <form class="" method="post">
+                    {% for cat, msg in get_flashed_messages(True) %}
+                    {% if cat=="success" %}
+                    <div class="alert alert-success">{{msg}}</div>
+                    {% else %}
+                    <div class="alert alert-warning">{{msg}}</div>
+                    {% endif %}
+                    {% endfor %}
+                    <div class="form-floating mb-3">
+                        <select class="form-select rounded-4" name="name_LaboratoryWork" required>
+                            <option value="">...</option>
+                            {% for lw in lw_list %}
+                            {% if lw.Teacher.id_user==current_user.id %}
+                            <option>{{ lw.LaboratoryWork.name }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                        <label>Работа</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="date" name="deadline" class="form-control rounded-4" required>
+                        <label for="floatingInput">Предельная дата выполнения</label>
+                    </div>
+
+                    <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit">Добавить</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<h3>Список проверочных работ</h3>
+<div class="table-responsive">
+    <table class="table table-striped table-sm">
+        <thead>
+        <tr>
+            <th scope="col">Дисциплина</th>
+            <th scope="col">Номер работы</th>
+            <th scope="col">Название работы</th>
+            <th scope="col">Предельная дата выполнения</th>
+            <th scope="col">Оценка</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for lr in lr_list %}
+        {% if lr.WorkGroup.id_group==id_group and lr.Teacher.id_user==current_user.id %}
+        <tr>
+            <td>{{ lr.Discipline.name }}</td>
+            <td>{{ lr.LaboratoryWork.number }}</td>
+            <td>{{ lr.LaboratoryWork.name }}</td>
+            <td>{{ lr.WorkGroup.deadline }}</td>
+            <td><a href="/result_lw/{{ id_group }}/{{ lr.LaboratoryWork.id }}/{{ lr.Discipline.id }}">Оценить</a></td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<h3>Список контрольных работ</h3>
+<div class="table-responsive">
+    <table class="table table-striped table-sm">
+        <thead>
+        <tr>
+            <th scope="col">Дисциплина</th>
+            <th scope="col">Номер работы</th>
+            <th scope="col">Название работы</th>
+            <th scope="col">Предельная дата выполнения</th>
+            <th scope="col">Оценка</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for cr in cr_list %}
+        {% if cr.Teacher.id_user==current_user.id %}
+        <tr>
+            <td>{{ cr.Discipline.name }}</td>
+            <td>{{ cr.ControlWork.number }}</td>
+            <td>{{ cr.ControlWork.name }}</td>
+            <td>{{ cr.ControlWork.deadline }}</td>
+            <td><a href="/result_cw/{{ id_group }}/{{ cr.ControlWork.id }}/{{ cr.Discipline.id }}">Оценить</a></td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

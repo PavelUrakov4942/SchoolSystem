@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}
+Профиль преподавателя
+{% endblock %}
+
+{% block body %}
+<div>
+    <span class="fs-4">Профиль преподавателя</span>
+    <h3>{{ inf.fullName }}</h3>
+    <p>Дата рождения: {{ inf.dateBirth }}</p>
+    <p>Позиция: {{ inf.qualification }}</p>
+    <a href="/logout" class="mb-2 btn btn-lg rounded-4 btn-primary" type="submit">Выйти</a>
+    <hr>
+    <p>
+        <span class="fs-4">Ваши классы</span>
+    </p>
+    <p>
+        {% for g in groups %}
+        {% if g.TeacherGroup.id_teacher==inf.id %}
+        <a href="/group/{{ g.Group.number }}/{{ g.Group.id }}" class="mb-2 btn btn-outline-secondary rounded-4"
+           type="submit">{{ g.Group.number }}</a>
+        {% endif %}
+        {% endfor %}<br>
+    <p><span class="fs-4">Добавление работ</span></p>
+    <a href="/add_lw" class="mb-2 btn btn-outline-secondary rounded-4" type="submit">Добавить ПР</a>
+    <a href="/add_cw" class="mb-2 btn btn-outline-secondary rounded-4" type="submit">Добавить КР</a>
+    </p><br>
+    <p><span class="fs-4">Ваши дисциплины</span></p>
+    <div class="table-responsive">
+        <table class="table table-striped table-sm">
+            <thead>
+            <tr>
+                <th scope="col">Дисциплина</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for d in discipline %}
+            {% if d.Teacher.id_user==current_user.id %}
+            <tr>
+                <td>{{ d.Discipline.name }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

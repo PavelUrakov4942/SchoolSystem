@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}
+Регистрация ученика
+{% endblock %}
+
+{% block body %}
+<div class="modal modal-signin position-static d-block py-5">
+    <a href="/profile_admin" class="mb-2 btn btn-outline-secondary rounded-4" type="submit">Вернуться на главную</a>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-5">
+            <div class="modal-header p-5 pb-4 border-bottom-0">
+                <h3 class=" mb-0">Регистрация ученика</h3>
+            </div>
+            <div class="modal-body p-5 pt-0">
+                <form class="" method="post">
+                    {% for cat, msg in get_flashed_messages(True) %}
+                    {% if cat=="success" %}
+                    <div class="alert alert-success">{{msg}}</div>
+                    {% else %}
+                    <div class="alert alert-warning">{{msg}}</div>
+                    {% endif %}
+                    {% endfor %}
+                    <div class="form-floating mb-3">
+                        <input type="text" name="fullName" class="form-control rounded-4" maxlength="120" required>
+                        <label for="floatingInput">ФИО</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="date" name="dateBirth" class="form-control rounded-4" required>
+                        <label for="floatingInput">Дата рождения</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <select class="form-select rounded-4" name="groupName" required>
+                            <option value="">...</option>
+                            {% for gl in group_list %}
+                            <option>{{ gl.number }}</option>
+                            {% endfor %}
+                        </select>
+                        <label>Класс</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" name="login" class="form-control rounded-4" maxlength="25" required>
+                        <label for="floatingInput">Логин</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" name="password" class="form-control rounded-4" required>
+                        <label for="floatingPassword">Пароль</label>
+                    </div>
+                    <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit">Зарегистрировать</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<h3>Список учеников</h3>
+<div class="table-responsive">
+    <table class="table table-striped table-sm">
+        <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">ФИО</th>
+            <th scope="col">Дата рождения</th>
+            <th scope="col">Класс</th>
+            <th scope="col">Логин</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for sl in stud_list %}
+        <tr>
+            <td>{{ sl.Student.id }}</td>
+            <td>{{ sl.Student.fullName }}</td>
+            <td>{{ sl.Student.dateBirth }}</td>
+            <td>{{ sl.Group.number }}</td>
+            <td>{{ sl.User.login }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
